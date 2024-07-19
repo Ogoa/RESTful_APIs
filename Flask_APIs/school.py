@@ -29,20 +29,13 @@ def add_student():
                 }
         return make_response(jsonify(error_response), 400)
 
+    students['size'] += 1
     new_student = {
+            'id': students['size'],
             'name': data['student_name']
             }
-    if students is None:
-        new_student['id'] = 1
-        students = {
-                'size': 1,
-                'students': [new_student]
-                }
-    else:
-        total = students['size']
-        new_student['id'] = total + 1
-        students['students'].append(new_student)
-        students['size'] = total + 1
+
+    students['students'].append(new_student)  # Append new student to students list
 
     with open('students.json', 'w') as f:
         json.dump(students, f, indent=2, sort_keys=True)
