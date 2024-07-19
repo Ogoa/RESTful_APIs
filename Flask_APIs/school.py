@@ -25,7 +25,7 @@ def add_student():
 
     if data is None or 'student_name' not in data:
         error_response = {
-                'error': 'Your response should have the student name'
+                'error': 'Your request should have the student name'
                 }
         return make_response(jsonify(error_response), 400)
 
