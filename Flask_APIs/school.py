@@ -4,13 +4,13 @@ import json
 app = Flask(__name__)
 
 
-students = None
+students = {'size': 0, 'students': []}
 
 try:
     with open('students.json', 'r') as f:
         students = json.load(f)
 except (FileNotFoundError, json.JSONDecodeError) as e:
-    students = None
+    students = {'size': 0, 'students': []}
 
 
 @app.route('/')
