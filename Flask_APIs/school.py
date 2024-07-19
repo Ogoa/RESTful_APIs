@@ -49,7 +49,7 @@ def add_student():
 
 @app.route('/api/v1/students', methods=['GET'])
 def get_all_students():
-    if students is None:
+    if students['size'] == 0:
         response = {
                 'message': 'No students in the records',
                 'data': None
