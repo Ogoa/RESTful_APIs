@@ -72,19 +72,16 @@ def get_all_students():
 
 @app.route('/api/v1/students/<int:student_id>', methods=['GET'])
 def get_student_by_id(student_id):
-    if student_id <= 0 or students is None:
-        response = {
-                'message': f'No record found with the student ID: {student_id}',
-                'data': None
-                }
-        return make_response(jsonify(response), 404)
+    error_response = {
+            'message': f'No record found with the student ID: {student_id}',
+            'data': None
+            }
 
-    if student_id > students['size']:
-        response = {
-                'message': f'No record with the ID: {student_id} exists',
-                'data': None
-                }
-        return make_response(jsonify(response), 404)
+    if student_id <= 0 or students is None:
+        return make_response(jsonify(error_response), 404)
+
+    if student_id > students['size'] or students['size'] == 0:
+        return make_response(jsonify(error_response), 404)
 
     students_list = students['students']
 
