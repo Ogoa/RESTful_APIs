@@ -70,27 +70,21 @@ def get_student_by_id(student_id):
             'data': None
             }
 
-    if student_id <= 0 or students is None:
-        return make_response(jsonify(error_response), 404)
-
-    if student_id > students['size'] or students['size'] == 0:
+    if student_id <0 or students['size'] == 0 or student_id > students['size']:
         return make_response(jsonify(error_response), 404)
 
     students_list = students['students']
 
     student = next((student for student in students_list if student['id'] == student_id), None)
-    if student is None:
-        response = {
-                'message': 'No such student record exists',
-                'data': None
-                }
-        return make_response(jsonify(response), 404)
 
-    response = {
+    if student is None:
+        return make_response(jsonify(error_response), 404)
+
+    successful_response = {
             'message': 'Student record successfully found',
             'data': student
             }
-    return make_response(jsonify(response), 200)
+    return make_response(jsonify(successful_response), 200)
 
 
 @app.route('/api/v1/students/<int:student_id>', methods=['DELETE'])
@@ -102,10 +96,7 @@ def delete_student_by_id(student_id):
             'data': None
             }
 
-    if student_id <= 0 or students is None:
-        return make_response(jsonify(error_response), 404)
-
-    if student_id > students['size'] or students['size'] == 0:
+    if student_id <= 0 or students['size'] == 0 or student_id > students['size']:
         return make_response(jsonify(error_response), 404)
 
     student_list = students['students']
