@@ -103,5 +103,38 @@ def get_student_by_id(student_id):
     return make_response(jsonify(response), 200)
 
 
+@app.route('/api/v1/students/<int:student_id>', methods=['DELETE'])
+def delete_student_by_id(student_id):
+    global students
+
+    error_response = {
+            'message': f'No record found with the student ID: {student_id}',
+            'data': None
+            }
+
+    if student_id <= 0 or students is None:
+        return make_response(jsonify(error_response), 404)
+
+    if student_id > students['size'] or students['size'] == 0:
+        return make_response(jsonify(error_response), 404)
+
+    student_list = students['students']
+    student_to_delete = next((student for student in student_list if student_id == student['id']), None)
+    
+    if student_to_delete is None:
+        return make_response(jsonify(error_response), 404)
+
+    successful_response = {
+            'message': 'Successfuly deleted student record',
+            'deleted_record': student_to_delete
+            }
+    students['students'].remove(student_to_delete)
+    students['size'] -= 1  # Decrease the size by one
+    with open('students.json', 'w') as f:
+        json.dump(students, f, indent=2, sort_keys=True)
+
+    return make_response(jsonify(successful_response), 200)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
