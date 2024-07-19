@@ -70,7 +70,7 @@ def get_student_by_id(student_id):
             'data': None
             }
 
-    if student_id <0 or students['size'] == 0 or student_id > students['size']:
+    if student_id <0 or students['size'] == 0:
         return make_response(jsonify(error_response), 404)
 
     students_list = students['students']
@@ -96,7 +96,7 @@ def delete_student_by_id(student_id):
             'data': None
             }
 
-    if student_id <= 0 or students['size'] == 0 or student_id > students['size']:
+    if student_id <= 0 or students['size'] == 0:
         return make_response(jsonify(error_response), 404)
 
     student_list = students['students']
